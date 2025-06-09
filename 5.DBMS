@@ -1,0 +1,111 @@
+5.1.CREATE TABLE Faculty (
+    Faculty_ID INT PRIMARY KEY,
+    Name VARCHAR(100),
+    Department VARCHAR(50),
+    Email VARCHAR(100)
+);
+
+Faculty
+| Column      | Data Type    | Constraint  |
+| ----------- | ------------ | ----------- |
+| Faculty\_ID | INT          | PRIMARY KEY |
+| Name        | VARCHAR(100) |             |
+| Department  | VARCHAR(50)  |             |
+| Email       | VARCHAR(100) |             |
+
+
+
+2.CREATE TABLE Student (
+    Student_ID INT PRIMARY KEY,
+    Name VARCHAR(100),
+    Marks INT,
+    Department VARCHAR(50)
+);
+
+INSERT INTO Student (Student_ID, Name, Marks, Department) VALUES
+(1, 'Ravi', 78, 'CSE'),
+(2, 'Sneha', 60, 'ECE'),
+(3, 'Arun', 42, 'ME'),
+(4, 'Priya', 75, 'CSE'),
+(5, 'Kiran', 40, 'EEE');
+
+| Student\_ID | Name  | Marks | Department |
+| ----------- | ----- | ----- | ---------- |
+| 1           | Ravi  | 78    | CSE        |
+| 2           | Sneha | 60    | ECE        |
+| 3           | Arun  | 42    | ME         |
+| 4           | Priya | 75    | CSE        |
+| 5           | Kiran | 40    | EEE        |
+
+
+CREATE TABLE Library (
+    Book_ID INT PRIMARY KEY,
+    Book_Title VARCHAR(100),
+    Author VARCHAR(100),
+    Student_ID INT,
+    FOREIGN KEY (Student_ID) REFERENCES Student(Student_ID)
+);
+
+INSERT INTO Library (Book_ID, Book_Title, Author, Student_ID) VALUES
+(101, 'C Programming', 'Dennis Ritchie', 1),  -- Ravi
+(102, 'DBMS Concepts', 'Navathe', 2),         -- Sneha
+(103, 'Operating Systems', 'Galvin', 4);      -- Priya
+
+| Book\_ID | Book\_Title       | Author         | Student\_ID |
+| -------- | ----------------- | -------------- | ----------- |
+| 101      | C Programming     | Dennis Ritchie | 1           |
+| 102      | DBMS Concepts     | Navathe        | 2           |
+| 103      | Operating Systems | Galvin         | 4           |
+
+2. Foreign Key Connection
+CREATE TABLE Library (
+    Book_ID INT PRIMARY KEY,
+    Book_Title VARCHAR(100),
+    Author VARCHAR(100),
+    Student_ID INT,
+    FOREIGN KEY (Student_ID) REFERENCES Student(Student_ID)
+);
+
+Step 2: View the Connected Data (Join Table Output)
+SELECT 
+    S.Student_ID, 
+    S.Name AS Student_Name, 
+    S.Department, 
+    L.Book_ID, 
+    L.Book_Title, 
+    L.Author
+FROM 
+    Student S
+JOIN 
+    Library L ON S.Student_ID = L.Student_ID;
+
+ Output: Connected Table (Student + Library)
+| Student\_ID | Student\_Name | Department | Book\_ID | Book\_Title       | Author         |
+| ----------- | ------------- | ---------- | -------- | ----------------- | -------------- |
+| 1           | Ravi          | CSE        | 101      | C Programming     | Dennis Ritchie |
+| 2           | Sneha         | ECE        | 102      | DBMS Concepts     | Navathe        |
+| 4           | Priya         | CSE        | 103      | Operating Systems | Galvin         |
+
+
+SELECT * FROM Student
+WHERE Marks > 45;
+| Student\_ID | Name  | Marks | Department |
+| ----------- | ----- | ----- | ---------- |
+| 1           | Ravi  | 78    | CSE        |
+| 2           | Sneha | 60    | ECE        |
+| 4           | Priya | 75    | CSE        |
+
+5.1
++----------+        +-----------+        +----------+
+| Faculty  |        | Student   |        | Library  |
+|----------|        |-----------|        |----------|
+| Faculty_ID PK <---| Student_ID PK |<----| Book_ID PK
+| Name     |        | Name      |        | Book_Title
+| Dept     |        | Marks     |        | Author
+| Email    |        | Dept      |        | Student_ID FK
++----------+        +-----------+        +----------+
+                          |
+                          | One-to-Many (Student borrows Books)
+                          |
+
+
