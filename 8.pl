@@ -2,10 +2,10 @@
 % Insert Element at the Nth position in the List, producing Result.
 
 % If N is 1, insert Element at the start
-insert_nth(1, Element, List, [Element|List]) :- !.
+insert_nth(1, Element, List, [Element|List]) 
 
 % Recursively call to insert at the Nth position
-insert_nth(N, Element, [Head|Tail], [Head|Result]) :-
+insert_nth(N, Element, [Head|Tail], [Head|Result]) 
     N > 1,
     N1 is N - 1,
     insert_nth(N1, Element, Tail, Result).
