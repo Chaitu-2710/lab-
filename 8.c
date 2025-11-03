@@ -1,4 +1,4 @@
-Program :
+
 #include<stdio.h>
 #include<string.h>
 #define FRAM_TXT_SIZ 3
