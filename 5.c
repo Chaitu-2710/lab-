@@ -1,6 +1,4 @@
-Software Used: Turbo c++/Devc++/Code blocks
 
-Program:
 
 #include<stdio.h>
 
@@ -15,15 +13,6 @@ unsigned dist[20];
 unsigned from [20];
 
 }rt[10];
-
-Dept of CSE
-
-SCIENT INSTITUTE OF TECHNOLOGY
-
-Ibrahimpatnam. R.R Dist - 501506
-
-(Approved by AICTE & Affiliated to JNTUH, Hyderabad)
-
 int main()
 
 {
@@ -80,12 +69,6 @@ if(rt[i].dist[j]>costmat[i][k]+rt[k].dist[j])
 rt[i].dist[j]=rt[i].dist[k]+rt[k].dist[j];
 
 rt[i].from[j]=k;
-
-Dept of CSE
-
-Γ
-
-
 count++;
 
 }
