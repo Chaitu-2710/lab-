@@ -1,18 +1,24 @@
- from sklearn.neighbors import KNeighborsClassifier
  from sklearn import datasets
- from sklearn.model_selection import train_test_split
- from sklearn.metrics import accuracy_score
- iris = datasets.load_iris()
- features = iris.data
- labels = iris.target
- X_train, X_test, y_train, y_test = train_test_split(features, labels,
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+from sklearn.neighbors import KNeighborsClassifier
+
+iris = datasets.load_iris()
+features = iris.data
+
+X_train, X_test, y_train, y_test = train_test_split(features, labels,
  test_size=0.2, random_state=42)
- classifier = KNeighborsClassifier(n_neighbors=5)
- classifier.fit(X_train, y_train)
- new_sample = [[3, 1.5, 4, 5]]
- prediction = classifier.predict(new_sample)
- print(f'Predicted class for the new sample: {prediction}')
- y_pred = classifier.pred
+
+classifier = KNeighborsClassifier(n_neighbors=5)
+classifier.fit(X_train, y_train)
+
+new_sample = [[3, 1.5, 4, 5]]
+prediction = classifier.predict(new_sample)
+print(f'Predicted class for the new sample: {prediction}')
+
+y_pred = classifier.predict(X_test)
+accuracy = accuracy_score(y_test, y_pred)
+print(f'Accuracy on the test set: {accuracy}')
 
 
 program :
