@@ -1,60 +1,49 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <time.h>
+import 'package:flutter/material.dart';
 
-struct frame{
-    int seq_no;
-    char text[20];
-} fr[50], shuf[50];
+void main() => runApp(const MyApp());
 
-char msg[200];
-
-int assign_seq(){
-    int len=strlen(msg), i,j=0;
-    for(i=0;i<len;i+=4){
-        fr[j].seq_no=j+1;
-        strncpy(fr[j].text,&msg[i],4);
-        fr[j].text[4]='\0';
-        j++;
-    }
-    return j;
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+  @override
+  Widget build(BuildContext context) => const MaterialApp(home: FadeAnim());
 }
 
-void shuffle(int n){
-    int used[50]={0}, i,r;
-    srand(time(NULL));
-    for(i=0;i<n;i++){
-        do r = rand()%n; while(used[r]);
-        used[r]=1;
-        shuf[i]=fr[r];
-    }
+class FadeAnim extends StatefulWidget {
+  const FadeAnim({super.key});
+  @override
+  State<FadeAnim> createState() => _FadeAnimState();
 }
 
-void sort(int n){
-    int i,j;
-    struct frame temp;
-    for(i=0;i<n;i++)
-        for(j=0;j<n-1;j++)
-            if(shuf[j].seq_no > shuf[j+1].seq_no){
-                temp=shuf[j];
-                shuf[j]=shuf[j+1];
-                shuf[j+1]=temp;
-            }
-}
+class _FadeAnimState extends State<FadeAnim>
+    with SingleTickerProviderStateMixin {
 
-int main(){
-    int n,i;
-    printf("Enter message: ");
-    fgets(msg,200,stdin);
-    msg[strcspn(msg,"\n")] = '\0';
+  late final AnimationController _controller =
+      AnimationController(vsync: this, duration: const Duration(seconds: 2))
+        ..forward();
 
-    n = assign_seq();
-    shuffle(n);
-    sort(n);
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
-    printf("\nOutput: ");
-    for(i=0;i<n;i++) printf("%s",shuf[i].text);
-    printf("\n");
-    return 0;
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("Fade Animation")),
+      body: Center(
+        child: FadeTransition(
+          opacity: _controller,
+          child: Container(
+            width: 200,
+            height: 200,
+            color: Colors.blue,
+            alignment: Alignment.center,
+            child: const Text("Fading In!",
+                style: TextStyle(color: Colors.white, fontSize: 22)),
+          ),
+        ),
+      ),
+    );
+  }
 }
