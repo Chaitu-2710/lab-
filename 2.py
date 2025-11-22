@@ -1,43 +1,45 @@
-#include <stdio.h>
+import 'package:flutter/material.dart';
 
-struct node {
-    unsigned dist[20];
-    unsigned from[20];
-} rt[10];
+void main() => runApp(const MyApp());
 
-int main() {
-    int cost[20][20], nodes, i, j, k, updated;
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+  @override
+  Widget build(BuildContext context) => const MaterialApp(
+        home: MyAnimatedWidget(),
+      );
+}
 
-    printf("Enter number of nodes: ");
-    scanf("%d", &nodes);
+class MyAnimatedWidget extends StatefulWidget {
+  const MyAnimatedWidget({super.key});
+  @override
+  State<MyAnimatedWidget> createState() => _MyAnimatedWidgetState();
+}
 
-    printf("Enter cost matrix:\n");
-    for (i = 0; i < nodes; i++) {
-        for (j = 0; j < nodes; j++) {
-            scanf("%d", &cost[i][j]);
-            cost[i][i] = 0;
-            rt[i].dist[j] = cost[i][j];
-            rt[i].from[j] = j;
-        }
-    }
+class _MyAnimatedWidgetState extends State<MyAnimatedWidget>
+    with SingleTickerProviderStateMixin {
 
-    do {
-        updated = 0;
-        for (i = 0; i < nodes; i++)
-            for (j = 0; j < nodes; j++)
-                for (k = 0; k < nodes; k++)
-                    if (rt[i].dist[j] > cost[i][k] + rt[k].dist[j]) {
-                        rt[i].dist[j] = cost[i][k] + rt[k].dist[j];
-                        rt[i].from[j] = k;
-                        updated = 1;
-                    }
-    } while (updated);
+  late final AnimationController _controller =
+      AnimationController(vsync: this, duration: const Duration(seconds: 2))
+        ..forward();
 
-    for (i = 0; i < nodes; i++) {
-        printf("\nRouter %d:\n", i + 1);
-        for (j = 0; j < nodes; j++)
-            printf("Node %d via %d distance %d\n", j + 1, rt[i].from[j] + 1, rt[i].dist[j]);
-    }
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
-    return 0;
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("Animation")),
+      body: Center(
+        child: FadeTransition(
+          opacity: _controller,
+          child: const Text("Hello Animation",
+              style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold)),
+        ),
+      ),
+    );
+  }
 }
